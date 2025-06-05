@@ -1,0 +1,115 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Currency Exchange RWF & USD</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <style>
+        footer {
+            margin-top: 30px;
+            padding: 10px;
+            text-align: center;
+            background-color: #f2f2f2;
+            color: #333;
+            font-size: 14px;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1DA1F2',
+                        secondary: '#14171A',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gradient-to-r from-green-200 via-white to-green-200 min-h-screen flex items-center justify-center py-12 px-4 sm:px-6 lg:px-8">
+    <div class="max-w-md w-full bg-white shadow-3xl rounded-3xl p-10 border border-gray-300">
+        <h2 class="text-4xl font-extrabold text-center mb-10 text-primary tracking-wide">Currency Exchange</h2>
+        <label class="block mb-3 text-gray-800 font-semibold text-lg" for="amount">Enter amount:</label>
+        <input type="number" id="amount" class="w-full mb-8 p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-primary focus:border-transparent transition duration-300" placeholder="Enter amount" />
+
+        <label class="block mb-3 text-gray-800 font-semibold text-lg" for="fromCurrency">From currency:</label>
+        <select id="fromCurrency" class="w-full mb-8 p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-primary focus:border-transparent transition duration-300">
+            <option value="RWF" selected>RWF - Rwandan Franc</option>
+            <option value="USD">USD - United States Dollar</option>
+            <option value="EUR">EUR - Euro (European Union)</option>
+            <option value="GBP">GBP - British Pound (United Kingdom)</option>
+            <option value="CHF">CHF - Swiss Franc (Switzerland)</option>
+            <option value="JPY">JPY - Japanese Yen (Japan)</option>
+            <option value="CAD">CAD - Canadian Dollar (Canada)</option>
+            <option value="AUD">AUD - Australian Dollar (Australia)</option>
+            <option value="CNY">CNY - Chinese Yuan (China)</option>
+            <option value="SEK">SEK - Swedish Krona (Sweden)</option>
+        </select>
+
+        <label class="block mb-3 text-gray-800 font-semibold text-lg" for="toCurrency">To currency:</label>
+        <select id="toCurrency" class="w-full mb-8 p-4 border border-gray-300 rounded-xl focus:outline-none focus:ring-4 focus:ring-primary focus:border-transparent transition duration-300">
+            <option value="RWF">RWF - Rwandan Franc</option>
+            <option value="USD" selected>USD - United States Dollar</option>
+            <option value="EUR">EUR - Euro (European Union)</option>
+            <option value="GBP">GBP - British Pound (United Kingdom)</option>
+            <option value="CHF">CHF - Swiss Franc (Switzerland)</option>
+            <option value="JPY">JPY - Japanese Yen (Japan)</option>
+            <option value="CAD">CAD - Canadian Dollar (Canada)</option>
+            <option value="AUD">AUD - Australian Dollar (Australia)</option>
+            <option value="CNY">CNY - Chinese Yuan (China)</option>
+            <option value="SEK">SEK - Swedish Krona (Sweden)</option>
+        </select>
+
+        <button onclick="convertCurrency()" class="w-full bg-gradient-to-r from-primary to-blue-700 hover:from-blue-700 hover:to-primary transition-colors duration-500 text-white py-4 rounded-xl font-extrabold shadow-lg hover:shadow-xl focus:outline-none focus:ring-4 focus:ring-blue-400 focus:ring-opacity-75">Convert</button>
+
+        <div id="result" class="mt-10 text-gray-900 font-extrabold text-center text-xl"></div>
+    </div>
+
+    <script>
+        // Exchange rates relative to USD
+        const exchangeRates = {
+            USD: 1,
+            RWF: 1100,
+            EUR: 0.92,
+            GBP: 0.81,
+            CHF: 0.91,
+            JPY: 134.5,
+            CAD: 1.34,
+            AUD: 1.49,
+            CNY: 6.9,
+            SEK: 10.5
+        };
+
+        function convertCurrency() {
+            const amountInput = document.getElementById('amount').value;
+            const amount = parseFloat(amountInput);
+            if (isNaN(amount) || amount <= 0) {
+                document.getElementById('result').innerText = 'Please enter a valid positive amount.';
+                return;
+            }
+
+            const fromCurrency = document.getElementById('fromCurrency').value;
+            const toCurrency = document.getElementById('toCurrency').value;
+
+            if (fromCurrency === toCurrency) {
+                document.getElementById('result').innerText = 'Please select two different currencies.';
+                return;
+            }
+
+            // Convert amount to USD first
+            const amountInUSD = amount / exchangeRates[fromCurrency];
+            // Convert USD to target currency
+            const convertedAmount = amountInUSD * exchangeRates[toCurrency];
+
+            document.getElementById('result').innerText = `${amount.toFixed(2)} ${fromCurrency} = ${convertedAmount.toFixed(2)} ${toCurrency}`;
+        }
+    </script>
+
+    <footer class="mt-16 py-6 bg-gray-100 text-center text-gray-600 text-sm border-t border-gray-300 select-none">
+        &copy; 2025 Currency Exchange App | Developed by Adolphe
+    </footer>
+</body>
+</html>
