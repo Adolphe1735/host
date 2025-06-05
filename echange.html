@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8" />
+    <meta name="viewport" content="width=device-width, initial-scale=1" />
+    <title>Currency Exchange RWF & USD</title>
+    <link href="https://cdn.jsdelivr.net/npm/tailwindcss@2.2.19/dist/tailwind.min.css" rel="stylesheet" />
+    <style>
+        footer {
+            margin-top: 30px;
+            padding: 10px;
+            text-align: center;
+            background-color: #f2f2f2;
+            color: #333;
+            font-size: 14px;
+        }
+    </style>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script>
+        tailwind.config = {
+            theme: {
+                extend: {
+                    colors: {
+                        primary: '#1DA1F2',
+                        secondary: '#14171A',
+                    }
+                }
+            }
+        }
+    </script>
+</head>
+<body class="bg-gray-100 py-10">
+    <div class="max-w-md mx-auto bg-white shadow-lg rounded-2xl p-6">
+        <h2 class="text-2xl font-bold text-center mb-6">Currency Exchange: RWF & USD</h2>
+        <label class="block mb-2" for="amount">Enter amount:</label>
+        <input type="number" id="amount" class="w-full mb-4 p-2 border rounded" placeholder="Enter amount" />
+
+        <label class="block mb-2">Select currency:</label>
+        <div class="mb-4">
+            <label class="inline-flex items-center mr-4">
+                <input type="radio" name="currency" value="RWF" checked class="form-radio" />
+                <span class="ml-2">RWF</span>
+            </label>
+            <label class="inline-flex items-center">
+                <input type="radio" name="currency" value="USD" class="form-radio" />
+                <span class="ml-2">USD</span>
+            </label>
+        </div>
+
+        <button onclick="convertCurrency()" class="w-full bg-blue-600 text-white py-2 rounded">Convert</button>
+
+        <div id="result" class="mt-6 text-gray-700 font-semibold text-center"></div>
+    </div>
+
+    <script>
+        const exchangeRate = 1100; // 1 USD = 1100 RWF
+
+        function convertCurrency() {
+            const amountInput = document.getElementById('amount').value;
+            const amount = parseFloat(amountInput);
+            if (isNaN(amount) || amount <= 0) {
+                document.getElementById('result').innerText = 'Please enter a valid positive amount.';
+                return;
+            }
+
+            const currency = document.querySelector('input[name="currency"]:checked').value;
+            let convertedAmount, convertedCurrency;
+
+            if (currency === 'RWF') {
+                convertedAmount = amount / exchangeRate;
+                convertedCurrency = 'USD';
+            } else {
+                convertedAmount = amount * exchangeRate;
+                convertedCurrency = 'RWF';
+            }
+
+            document.getElementById('result').innerText = `${amount.toFixed(2)} ${currency} = ${convertedAmount.toFixed(2)} ${convertedCurrency}`;
+        }
+    </script>
+
+    <footer>
+        &copy; 2025 Currency Exchange App | Developed by NIWILSON
+    </footer>
+</body>
+</html>
